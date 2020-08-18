@@ -59,7 +59,7 @@ function searchExtractionItem(message) {
         
         const filteredItems = listItem.filter((item) => {
           const currentItemName = item[2].toLowerCase();
-          return currentItemName.includes(itemName)
+          return currentItemName.replace('[1]', '').includes(itemName)
         });
 
         if (!!filteredItems) {
