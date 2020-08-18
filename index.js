@@ -16,7 +16,7 @@ require('dotenv').config();
 const COMMANDS = {
   HELP: '&help',
   HELP_MESSAGE: `- !list-extract
-    - !extract **{item_name}**
+    - !extract **{item_name (min_charaters: 5)}**
   `,
   EXTRACT: '!extract ',
   EXTRACT_HELP: '!extract',
@@ -24,7 +24,7 @@ const COMMANDS = {
 }
 
 function generateItemName(itemName) {
-  return itemName.replace('[1]', '');
+  return itemName;
 }
 
 function generateItemType(itemType) {
@@ -74,8 +74,9 @@ function getExtractionList(message) {
 function searchExtractionItem(message) {
   const searchMessage = message.content.split(COMMANDS.EXTRACT);
   const itemName = searchMessage[1].toLowerCase();
-  
-  if (itemName.length > 0) {
+  if (itemName.length < 5) message.channel.send('Minimal character search is 5 characters');
+
+  else if (itemName.length > 0) {
     axios.default.get('https://www.romcodex.com/api/extraction-buff')
       .then((response) => {
         let listItem = response.data || [];
