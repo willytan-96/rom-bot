@@ -17,7 +17,7 @@ require('dotenv').config();
 const COMMANDS = {
   HELP: '&help',
   HELP_MESSAGE: `- !list-extract
-    - !extract **{item_name (min_charaters: 5)}**
+    - !extract **{item_name}**
   `,
   EXTRACT: '!extract ',
   EXTRACT_HELP: '!extract',
