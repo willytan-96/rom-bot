@@ -45,11 +45,13 @@ function generateItemType(itemType) {
 function getExtractionList(message) {
   axios.default.get('https://www.romcodex.com/api/extraction-buff')
     .then((response) => {
-      let listItem = response.data || [];
+      const listItem = response.data || [];
+      const sortedList = listItem.sort((itemA, itemB) => itemA[2].localeCompare(itemB[2]));
 
       let messageList = ``;
-      
-      listItem.forEach((item) => {
+
+
+      sortedList.forEach((item) => {
         var itemName = item[2];
         
         messageList += '- ' + generateItemName(itemName) + `\n`;
@@ -70,8 +72,8 @@ function getExtractionList(message) {
 }
 
 function searchExtractionItem(message) {
-  var searchMessage = message.content.split(COMMANDS.EXTRACT);
-  var itemName = searchMessage[1].toLowerCase();
+  const searchMessage = message.content.split(COMMANDS.EXTRACT);
+  const itemName = searchMessage[1].toLowerCase();
   
   if (itemName.length > 0) {
     axios.default.get('https://www.romcodex.com/api/extraction-buff')
