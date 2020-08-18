@@ -20,10 +20,10 @@ function getExtractionList(message) {
 
       let messageList = ``;
       
-      listItem.forEach((items) => {
+      listItem.forEach((item) => {
         var itemName = item[2];
         
-        messageList += itemName + `\n`;
+        messageList += '- ' + itemName + `\n`;
       });
 
       const buffExtractionList = new Discord.RichEmbed()
