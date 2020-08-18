@@ -9,7 +9,7 @@ const COMMANDS = {
   HELP_MESSAGE: `- !list-extract
     - !extract **{item_name}**
   `,
-  EXTRACT: '!extract',
+  EXTRACT: '!extract ',
   EXTRACTION_LIST: '!list-extract'
 }
 
