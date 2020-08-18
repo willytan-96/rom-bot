@@ -19,7 +19,27 @@ const COMMANDS = {
     - !extract **{item_name}**
   `,
   EXTRACT: '!extract ',
+  EXTRACT_HELP: '!extract',
   EXTRACTION_LIST: '!list-extract'
+}
+
+function generateItemName(itemName) {
+  return itemName.replace('[1]', '');
+}
+
+function generateItemType(itemType) {
+  switch (itemType) {
+    case 170: return 'Weapon - Spear';
+    case 180: return 'Weapon - Sword';
+    case 190: return 'Weapon - Staff';
+    case 210: return 'Weapon - Bow'
+    case 220: return 'Weapon - Mace';
+    case 230: return 'Weapon - Axe';
+    case 250: return 'Weapon - Dagger';
+    case 290: return 'Weapon -Knuckle';
+    case 500: return 'Armor';
+    case 510: return 'Offhand';
+  }
 }
 
 function getExtractionList(message) {
@@ -32,13 +52,14 @@ function getExtractionList(message) {
       listItem.forEach((item) => {
         var itemName = item[2];
         
-        messageList += '- ' + itemName + `\n`;
+        messageList += '- ' + generateItemName(itemName) + `\n`;
       });
 
       const buffExtractionList = new Discord.RichEmbed()
         .setColor('#0099ff')
         .setTitle('Buff Extraction List')
         .setDescription(messageList)
+        .setFooter('Note: Kalau rusak cari GloomyLord')
         .setTimestamp();
 
       message.channel.send(buffExtractionList);
@@ -52,30 +73,29 @@ function searchExtractionItem(message) {
   var searchMessage = message.content.split(COMMANDS.EXTRACT);
   var itemName = searchMessage[1].toLowerCase();
   
-  if (!!itemName) {
+  if (itemName.length > 0) {
     axios.default.get('https://www.romcodex.com/api/extraction-buff')
       .then((response) => {
         let listItem = response.data || [];
         
         const filteredItems = listItem.filter((item) => {
           const currentItemName = item[2].toLowerCase();
-          return currentItemName.replace('[1]', '').includes(itemName)
+          return generateItemName(currentItemName).includes(itemName)
         });
 
-        if (!!filteredItems) {
+        if (filteredItems.length > 0) {
           filteredItems.forEach(filteredItem => {
             var itemId = filteredItem[0];
             var itemName = filteredItem[2];
             var itemDescription = filteredItem[3];
+            var itemType = filteredItem[4];
             
             const buffExtraction = new Discord.RichEmbed()
               .setColor('#0099ff')
-              .setTitle('Buff Extraction')
-              .setDescription(`
-                **Search result :**
-                ${itemName}
+              .setTitle(`${itemName}`)
+              .setDescription(`${generateItemType(itemType)}
 
-                **Effect:**
+                **Buff Extraction Effect :**
                 ${itemDescription}
               `)
               .setThumbnail(`https://www.romcodex.com/icons/item/item_${itemId}.png`)
@@ -84,9 +104,7 @@ function searchExtractionItem(message) {
             message.channel.send(buffExtraction);
           });
         } else {
-          message.channel.send(`Search result for item **${searchMessage[1]}** is not found.
-            Please check item list on: !list-extract
-          `)
+          message.channel.send(`Please check item list on: !list-extract`)
         }
       })
       .catch(() => {
@@ -109,8 +127,11 @@ function sendHelp(message) {
 }
 
 client.on('ready', () => {
+  client.user.setActivity('h: &help')
   console.log('I am ready!');
 });
+
+// client.user.setActivity("`or any information : &help"); 
 
 client.on('message', (message) => {
   if(message.content.startsWith(COMMANDS.EXTRACT)) {
@@ -119,6 +140,8 @@ client.on('message', (message) => {
     getExtractionList(message)
   } else if (message.content.startsWith(COMMANDS.HELP)) {
     sendHelp(message);
+  } else if (message.content.startsWith(COMMANDS.EXTRACT_HELP)) {
+    message.channel.send('Please input the item name. **Format:*** `!extract {item_name}`\nTo check other commands try using `&help`')
   }
 });
 
