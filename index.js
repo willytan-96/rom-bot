@@ -6,6 +6,9 @@ require('dotenv').config();
 
 const COMMANDS = {
   HELP: '&help',
+  HELP_MESSAGE: `- !list-extract
+    - !extract **{item_name}**
+  `,
   EXTRACT: '!extract',
   EXTRACTION_LIST: '!list-extract'
 }
@@ -89,11 +92,7 @@ function sendHelp(message) {
   const helpMessage = new Discord.RichEmbed()
     .setColor('#0099ff')
     .setTitle('Help Support')
-    .setDescription(`
-      **Commands :**
-      - !list-extract
-      - !extract {item_name}
-    `)
+    .setDescription(COMMANDS.HELP_MESSAGE)
     .setFooter('Note: Kalau rusak cari GloomyLord')
     .setTimestamp();
 
