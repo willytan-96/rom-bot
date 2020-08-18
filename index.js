@@ -2,6 +2,8 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const axios =  require('axios');
 
+require('dotenv').config();
+
 const COMMANDS = {
   HELP: '&help',
   EXTRACT: '!extract',
@@ -112,4 +114,4 @@ client.on('message', (message) => {
   }
 });
 
-client.login('NzI1NTU5OTA2MzI5MDM0Nzkz.XvQgUQ.XI-DM7u22GzYS8uAXmdkTN6Y8YE');
+client.login(process.env.CLIENT_SECRET_TOKEN);
