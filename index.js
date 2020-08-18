@@ -10,6 +10,7 @@ app.listen(port, () => console.log(`Example app listening at http://localhost:${
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const axios =  require('axios');
+const stringSimilarity = require('string-similarity');
 
 require('dotenv').config();
 
@@ -73,44 +74,51 @@ function getExtractionList(message) {
 
 function searchExtractionItem(message) {
   const searchMessage = message.content.split(COMMANDS.EXTRACT);
-  const itemName = searchMessage[1].toLowerCase();
-  if (itemName.length < 5) message.channel.send('Minimal character search is 5 characters');
+  const searchItemName = searchMessage[1].toLowerCase();
 
-  else if (itemName.length > 0) {
+  if (searchItemName.length > 0) {
     axios.default.get('https://www.romcodex.com/api/extraction-buff')
       .then((response) => {
         let listItem = response.data || [];
         
-        const filteredItems = listItem.filter((item) => {
+        let maxScore = 0;
+        let result = [];
+
+        listItem.forEach(item => {
           const currentItemName = item[2].toLowerCase();
-          return generateItemName(currentItemName).includes(itemName)
+          let score = stringSimilarity.compareTwoStrings(currentItemName, searchItemName);
+
+          if (maxScore < score) {
+            maxScore = score;
+            result = item;
+          }
         });
 
-        if (filteredItems.length > 0) {
-          filteredItems.forEach(filteredItem => {
-            var itemId = filteredItem[0];
-            var itemName = filteredItem[2];
-            var itemDescription = filteredItem[3];
-            var itemType = filteredItem[4];
-            
-            const buffExtraction = new Discord.RichEmbed()
-              .setColor('#0099ff')
-              .setTitle(`${itemName}`)
-              .setDescription(`${generateItemType(itemType)}
-
-                **Buff Extraction Effect :**
-                ${itemDescription}
-              `)
-              .setThumbnail(`https://www.romcodex.com/icons/item/item_${itemId}.png`)
-              .setTimestamp();
-
-            message.channel.send(buffExtraction);
-          });
-        } else {
-          message.channel.send(`Please check item list on: !list-extract`)
+        if (maxScore === 0) message.channel.send('List extraction item is not found, please check on `!list-extract`');
+        else {
+          console.log(result)
+          var itemId = result[0];
+          var itemName = result[2];
+          var itemDescription = result[3];
+          var itemType = result[4];
+          
+          const buffExtraction = new Discord.RichEmbed()
+            .setColor('#0099ff')
+            .setTitle(`${itemName}`)
+            .setDescription(`${generateItemType(itemType)}
+  
+              **Buff Extraction Effect :**
+              ${itemDescription}
+            `)
+            .setThumbnail(`https://www.romcodex.com/icons/item/item_${itemId}.png`)
+            .setTimestamp();
+  
+          message.channel.send(buffExtraction);
         }
+        
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         message.channel.send('Failed to fetch data :(');
       });
     } else {
