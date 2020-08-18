@@ -1,9 +1,9 @@
 const express = require('express')
 const app = express();
-const port = 3000;
+const port = 8080;
 
 app.get('/', (req, res) => res.send('Hello World!'));
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+app.listen(port, '0.0.0.0', () => console.log(`Example app listening at http://0.0.0.0:${port}`))
 
 // Bot Code
 
@@ -96,7 +96,6 @@ function searchExtractionItem(message) {
 
         if (maxScore === 0) message.channel.send('List extraction item is not found, please check on `!list-extract`');
         else {
-          console.log(result)
           var itemId = result[0];
           var itemName = result[2];
           var itemDescription = result[3];
