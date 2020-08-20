@@ -34,7 +34,7 @@ client.on('message', (message) => {
   } else if (message.content.startsWith(BUFF_EXTRACTION.EXTRACTION_HELP)) {
     BUFF_EXTRACTION_FEATURES.sendHelpExtractionMessage(message);
   } else if (message.content.startsWith(GENERAL.HELP)) {
-    BUFF_EXTRACTION_FEATURES.sendHelpExtractionMessage(message);
+    sendHelp(message);
   } 
 });
 
