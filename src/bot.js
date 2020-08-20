@@ -12,7 +12,7 @@ function sendHelp(message) {
   const helpMessage = new Discord.RichEmbed()
     .setColor('#0099ff')
     .setTitle('Help Support')
-    .setDescription(BUFF_EXTRACTION.HELP_MESSAGE)
+    .setDescription(GENERAL.HELP_MESSAGE)
     .setFooter('Note: Kalau rusak cari GloomyLord')
     .setTimestamp();
 
