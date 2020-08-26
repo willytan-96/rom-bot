@@ -7,6 +7,7 @@ const GENERAL = require('./constants/general.js');
 
 const BUFF_EXTRACTION_FEATURES = require('./features/buff-extraction');
 const BUFF_EXTRACTION = require('./constants/buff-extraction.js');
+const CARD_FILTERS = require('./features/card-filters/index.js');
 
 function sendHelp(message) {
   const helpMessage = new Discord.RichEmbed()
@@ -35,7 +36,13 @@ client.on('message', (message) => {
     BUFF_EXTRACTION_FEATURES.sendHelpExtractionMessage(message);
   } else if (message.content.startsWith(GENERAL.HELP)) {
     sendHelp(message);
-  } 
+  } else if (message.content.startsWith(GENERAL.DEPO_CARD_LIST)) {
+    CARD_FILTERS.sendEffectList(message);
+  } else if (message.content.startsWith(GENERAL.DEPO_CARD)) {
+    CARD_FILTERS.getListDepoCard(message);
+  } else if (message.content.startsWith(GENERAL.DEPO_CARD_HELP)) {
+    CARD_FILTERS.sendHelpAdvBookCard(message);
+  }
 });
 
 client.login(process.env.CLIENT_SECRET_TOKEN);
