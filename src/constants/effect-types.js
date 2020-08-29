@@ -34,5 +34,13 @@ module.exports = {
     { title: 'EquipASPD', value: 'EquipASPD'},
     { title: 'HpRecovery', value: 'HpRestoreSpd'},
     { title: 'SpRecovery', value: 'SpRestoreSpd'},
+  ],
+  furnitureEffectTypes: [
+    { title: 'Atk', value: 'Atk' },
+    { title: 'MAtk', value: 'MAtk' },
+    { title: 'Def', value: 'Def' },
+    { title: 'MDef', value: 'MDef'},
+    { title: 'MaxHp', value: 'Max HP'},
+    { title: 'MaxSp', value: 'Max SP'},
   ]
 }

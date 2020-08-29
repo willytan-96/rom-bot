@@ -7,7 +7,8 @@ const GENERAL = require('./constants/general.js');
 
 const BUFF_EXTRACTION_FEATURES = require('./features/buff-extraction');
 const BUFF_EXTRACTION = require('./constants/buff-extraction.js');
-const CARD_FILTERS = require('./features/card-filters/index.js');
+const CARD_FILTERS = require('./features/card-filters');
+const FURNITURE_FILTERS = require('./features/furniture-filters');
 
 function sendHelp(message) {
   const helpMessage = new Discord.RichEmbed()
@@ -42,6 +43,12 @@ client.on('message', (message) => {
     CARD_FILTERS.getListDepoCard(message);
   } else if (message.content.startsWith(GENERAL.DEPO_CARD_HELP)) {
     CARD_FILTERS.sendHelpAdvBookCard(message);
+  } else if (message.content.startsWith(GENERAL.DEPO_FURNITURE_LIST)) {
+    FURNITURE_FILTERS.sendEffectList(message);
+  }  else if (message.content.startsWith(GENERAL.DEPO_FURNITURE)) {
+    FURNITURE_FILTERS.getListDepoFurnitures(message);
+  } else if (message.content.startsWith(GENERAL.DEPO_FURNITURE_HELP)) {
+    FURNITURE_FILTERS.sendHelpAdvBookFurnitures(message);
   }
 });
 
