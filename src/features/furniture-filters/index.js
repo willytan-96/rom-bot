@@ -1,12 +1,12 @@
 const Discord = require('discord.js');
-const axios =  require('axios');
+const axios = require('axios');
 const general = require('../../constants/general');
 const effectTypes = require('../../constants/effect-types');
 const GENERAL = require('../../constants/general');
 
 require('dotenv').config();
 
-function sendHelpAdvBookFurnitures (message) {
+function sendHelpAdvBookFurnitures(message) {
   message.channel.send('Please input the item name. *Format:* `' + GENERAL.DEPO_FURNITURE_HELP + ' {effect_name}`\nTo check other commands try using `&help`');
 }
 
@@ -18,10 +18,10 @@ function sendEffectList(message) {
   })
 
   const effectListMessage = new Discord.RichEmbed()
-            .setColor('#0099ff')
-            .setTitle(`List Adventure Book Effects:`)
-            .setDescription(effectList)
-            .setTimestamp();
+    .setColor('#0099ff')
+    .setTitle(`List Adventure Book Effects:`)
+    .setDescription(effectList)
+    .setTimestamp();
 
   message.channel.send(effectListMessage);
 }
@@ -47,7 +47,7 @@ function getListDepoFurnitures(message) {
 
         let listFurnitures = [];
         let textListFurnitures = '';
-        
+
         const sortedFurnituresList = furnitures.sort((furnitureA, furnitureB) => furnitureA[3].localeCompare(furnitureB[3]));
 
         sortedFurnituresList.forEach((furniture, index) => {
@@ -69,7 +69,7 @@ function getListDepoFurnitures(message) {
         listFurnitures.forEach((list) => message.channel.send('```' + list + '```'));
       }).catch((err) => {
         console.log(err);
-        message.channel.send('Failed to fetch data from server! Please try again ...') 
+        message.channel.send('Failed to fetch data from server! Please try again ...')
       })
   }
 

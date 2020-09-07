@@ -1,29 +1,39 @@
 const Discord = require('discord.js');
-const axios =  require('axios');
+const axios = require('axios');
 const stringSimilarity = require('string-similarity');
 
 var BUFF_EXTRACTION = require('../../constants/buff-extraction.js');
 
-function generateItemName (itemName) {
+function generateItemName(itemName) {
   return itemName;
 }
 
-function generateItemType (itemType) {
+function generateItemType(itemType) {
   switch (itemType) {
-    case 170: return 'Weapon - Spear';
-    case 180: return 'Weapon - Sword';
-    case 190: return 'Weapon - Staff';
-    case 210: return 'Weapon - Bow'
-    case 220: return 'Weapon - Mace';
-    case 230: return 'Weapon - Axe';
-    case 250: return 'Weapon - Dagger';
-    case 290: return 'Weapon -Knuckle';
-    case 500: return 'Armor';
-    case 510: return 'Offhand';
+    case 170:
+      return 'Weapon - Spear';
+    case 180:
+      return 'Weapon - Sword';
+    case 190:
+      return 'Weapon - Staff';
+    case 210:
+      return 'Weapon - Bow'
+    case 220:
+      return 'Weapon - Mace';
+    case 230:
+      return 'Weapon - Axe';
+    case 250:
+      return 'Weapon - Dagger';
+    case 290:
+      return 'Weapon -Knuckle';
+    case 500:
+      return 'Armor';
+    case 510:
+      return 'Offhand';
   }
 }
 
-function getExtractionList (message) {
+function getExtractionList(message) {
   axios.default.get('https://www.romcodex.com/api/extraction-buff')
     .then((response) => {
       const listItem = response.data || [];
@@ -34,7 +44,7 @@ function getExtractionList (message) {
 
       sortedList.forEach((item) => {
         var itemName = item[2];
-        
+
         messageList += '- ' + generateItemName(itemName) + `\n`;
       });
 
@@ -52,7 +62,7 @@ function getExtractionList (message) {
     });
 }
 
-function searchExtractionItem (message) {
+function searchExtractionItem(message) {
   const searchMessage = message.content.split(BUFF_EXTRACTION.EXTRACT);
   const searchItemName = searchMessage[1].toLowerCase();
 
@@ -60,7 +70,7 @@ function searchExtractionItem (message) {
     axios.default.get('https://www.romcodex.com/api/extraction-buff')
       .then((response) => {
         let listItem = response.data || [];
-        
+
         let maxScore = 0;
         let result = [];
 
@@ -80,7 +90,7 @@ function searchExtractionItem (message) {
           var itemName = result[2];
           var itemDescription = result[3];
           var itemType = result[4];
-          
+
           const buffExtraction = new Discord.RichEmbed()
             .setColor('#0099ff')
             .setTitle(`${itemName}`)
@@ -91,21 +101,21 @@ function searchExtractionItem (message) {
             `)
             .setThumbnail(`https://www.romcodex.com/icons/item/item_${itemId}.png`)
             .setTimestamp();
-  
+
           message.channel.send(buffExtraction);
         }
-        
+
       })
       .catch((err) => {
         console.log(err);
         message.channel.send('Failed to fetch data :(');
       });
-    } else {
-      message.channel.send('Item message not inputed ! Yang betol lha!')
-    }
+  } else {
+    message.channel.send('Item message not inputed ! Yang betol lha!')
+  }
 }
 
-function sendHelpExtractionMessage (message) {
+function sendHelpExtractionMessage(message) {
   message.channel.send('Please input the item name. **Format:*** `!extract {item_name}`\nTo check other commands try using `&help`');
 }
 

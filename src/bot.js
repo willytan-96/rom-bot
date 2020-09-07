@@ -29,9 +29,9 @@ client.on('ready', () => {
 // client.user.setActivity("`or any information : &help"); 
 
 client.on('message', (message) => {
-  if(message.content.startsWith(BUFF_EXTRACTION.EXTRACT)) {
+  if (message.content.startsWith(BUFF_EXTRACTION.EXTRACT)) {
     BUFF_EXTRACTION_FEATURES.searchExtractionItem(message);
-  } else if(message.content.startsWith(BUFF_EXTRACTION.EXTRACTION_LIST)) {
+  } else if (message.content.startsWith(BUFF_EXTRACTION.EXTRACTION_LIST)) {
     BUFF_EXTRACTION_FEATURES.getExtractionList(message)
   } else if (message.content.startsWith(BUFF_EXTRACTION.EXTRACTION_HELP)) {
     BUFF_EXTRACTION_FEATURES.sendHelpExtractionMessage(message);
@@ -45,7 +45,7 @@ client.on('message', (message) => {
     CARD_FILTERS.sendHelpAdvBookCard(message);
   } else if (message.content.startsWith(GENERAL.DEPO_FURNITURE_LIST)) {
     FURNITURE_FILTERS.sendEffectList(message);
-  }  else if (message.content.startsWith(GENERAL.DEPO_FURNITURE)) {
+  } else if (message.content.startsWith(GENERAL.DEPO_FURNITURE)) {
     FURNITURE_FILTERS.getListDepoFurnitures(message);
   } else if (message.content.startsWith(GENERAL.DEPO_FURNITURE_HELP)) {
     FURNITURE_FILTERS.sendHelpAdvBookFurnitures(message);
