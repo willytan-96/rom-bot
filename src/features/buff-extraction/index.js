@@ -52,7 +52,6 @@ function getExtractionList(message) {
         .setColor('#0099ff')
         .setTitle('Buff Extraction List')
         .setDescription(messageList)
-        .setFooter('Note: Kalau rusak cari GloomyLord')
         .setTimestamp();
 
       message.channel.send(buffExtractionList);

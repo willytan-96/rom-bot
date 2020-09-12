@@ -15,7 +15,7 @@ function sendHelp(message) {
     .setColor('#0099ff')
     .setTitle('Help Support')
     .setDescription(GENERAL.HELP_MESSAGE)
-    .setFooter('Note: Kalau rusak cari GloomyLord')
+    .setFooter('Not for sell, this bot is free')
     .setTimestamp();
 
   message.channel.send(helpMessage);

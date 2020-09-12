@@ -35,7 +35,6 @@ function getListDepoFurnitures(message) {
   else {
     axios.get('https://www.romcodex.com/api/furniture')
       .then((response) => {
-        console.log(response)
         const furnitures = response.data.filter(
           (e) => {
             if (e[6]) return e[6].toLowerCase().includes(`${effect[0].value.toLowerCase()}`);
