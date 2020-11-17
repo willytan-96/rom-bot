@@ -7,6 +7,7 @@ const DEPO_CARD_LIST = '!depo card list';
 const DEPO_FURNITURE_HELP = '!depo furniture';
 const DEPO_FURNITURE = '!depo furniture ';
 const DEPO_FURNITURE_LIST = '!depo furniture list';
+const SYNTH_HELP = '!synth **{item_name}**';
 
 module.exports = {
   HELP: '&help',
@@ -16,6 +17,7 @@ module.exports = {
     - ${DEPO_CARD_LIST}
     - ${DEPO_FURNITURE} **{effect_name}**
     - ${DEPO_FURNITURE_LIST}
+    - ${SYNTH_HELP}
   `,
   DEPO_CARD_HELP,
   DEPO_CARD,
