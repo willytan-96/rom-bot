@@ -3,6 +3,8 @@ const axios = require('axios');
 const general = require('../../constants/general');
 const effectTypes = require('../../constants/effect-types');
 const GENERAL = require('../../constants/general');
+const API = require('../../constants/api');
+const ERROR = require('../../constants/error-message');
 
 require('dotenv').config();
 
@@ -33,7 +35,7 @@ function getListDepoFurnitures(message) {
 
   if (effect.length === 0) message.channel.send(`Effect doesn't exist. Please check list effect !`);
   else {
-    axios.get('https://www.romcodex.com/api/furniture')
+    axios.get(API.FURNITURES)
       .then((response) => {
         console.log(response)
         const furnitures = response.data.filter(
@@ -69,7 +71,7 @@ function getListDepoFurnitures(message) {
         listFurnitures.forEach((list) => message.channel.send('```' + list + '```'));
       }).catch((err) => {
         console.log(err);
-        message.channel.send('Failed to fetch data from server! Please try again ...')
+        message.channel.send(ERROR.UNABLE_FETCH_DATA)
       })
   }
 
