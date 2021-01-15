@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const axios = require('axios');
-const general = require('../../constants/general');
 const effectTypes = require('../../constants/effect-types');
 const GENERAL = require('../../constants/general');
 const API = require('../../constants/api');
@@ -29,13 +28,13 @@ function sendEffectList(message) {
 }
 
 function getListDepoFurnitures(message) {
-  const searchEffect = message.content.split(general.DEPO_FURNITURE);
+  const searchEffect = message.content.split(GENERAL.DEPO_FURNITURE);
   const searchEffectValue = searchEffect[1].toLowerCase();
   const effect = effectTypes.furnitureEffectTypes.filter((eTypes) => eTypes.title.toLowerCase() === searchEffectValue);
 
   if (effect.length === 0) message.channel.send(`Effect doesn't exist. Please check list effect !`);
   else {
-    axios.get(API.FURNITURES)
+    axios.get(API.URL.FURNITURES)
       .then((response) => {
         console.log(response)
         const furnitures = response.data.filter(

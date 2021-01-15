@@ -35,7 +35,7 @@ function getListDepoCard(message) {
 
   if (effect.length === 0) message.channel.send(`Effect doesn't exist. Please check list effect !`);
   else {
-    axios.get(API.CARDS)
+    axios.get(API.URL.CARDS)
       .then((response) => {
         const cards = response.data.filter(
           (e) => e[10].toLowerCase().includes(`"${effect[0].value.toLowerCase()}"`) ||

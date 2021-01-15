@@ -9,7 +9,10 @@ const DEPO_FURNITURE = '!depo furniture ';
 const DEPO_FURNITURE_LIST = '!depo furniture list';
 const SYNTH_HELP = '!synth **{item_name}**';
 
+const FIND_ITEM = '!find '
+
 module.exports = {
+  FIND_ITEM,
   HELP: '&help',
   HELP_MESSAGE: `- ${BUFF_EXTRACTION.EXTRACTION_LIST}
     - ${BUFF_EXTRACTION.EXTRACT} **{item_name}**
