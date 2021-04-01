@@ -11,7 +11,7 @@ const CARD_FILTERS = require('./features/card-filters');
 const FURNITURE_FILTERS = require('./features/furniture-filters');
 
 function sendHelp(message) {
-  const helpMessage = new Discord.RichEmbed()
+  const helpMessage = new Discord.MessageEmbed()
     .setColor('#0099ff')
     .setTitle('Help Support')
     .setDescription(GENERAL.HELP_MESSAGE)

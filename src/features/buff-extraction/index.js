@@ -48,7 +48,7 @@ function getExtractionList(message) {
         messageList += '- ' + generateItemName(itemName) + `\n`;
       });
 
-      const buffExtractionList = new Discord.RichEmbed()
+      const buffExtractionList = new Discord.MessageEmbed()
         .setColor('#0099ff')
         .setTitle('Buff Extraction List')
         .setDescription(messageList)
@@ -90,7 +90,7 @@ function searchExtractionItem(message) {
           var itemDescription = result[3];
           var itemType = result[4];
 
-          const buffExtraction = new Discord.RichEmbed()
+          const buffExtraction = new Discord.MessageEmbed()
             .setColor('#0099ff')
             .setTitle(`${itemName}`)
             .setDescription(`${generateItemType(itemType)}

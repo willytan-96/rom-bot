@@ -17,7 +17,7 @@ function sendEffectList(message) {
     effectList += `${index + 1}. ${effect.title} \n`
   })
 
-  const effectListMessage = new Discord.RichEmbed()
+  const effectListMessage = new Discord.MessageEmbed()
     .setColor('#0099ff')
     .setTitle(`List Adventure Book Effects:`)
     .setDescription(effectList)
