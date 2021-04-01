@@ -3,6 +3,8 @@ const axios = require('axios');
 const stringSimilarity = require('string-similarity');
 
 var BUFF_EXTRACTION = require('../../constants/buff-extraction.js');
+const API = require('../../constants/api.js');
+const ERROR = require('../../constants/error-message.js');
 
 function generateItemName(itemName) {
   return itemName;
@@ -34,7 +36,7 @@ function generateItemType(itemType) {
 }
 
 function getExtractionList(message) {
-  axios.default.get('https://www.romcodex.com/api/extraction-buff')
+  axios.default.get(API.URL.EXTRACTION_BUFF)
     .then((response) => {
       const listItem = response.data || [];
       const sortedList = listItem.sort((itemA, itemB) => itemA[2].localeCompare(itemB[2]));
@@ -57,7 +59,7 @@ function getExtractionList(message) {
       message.channel.send(buffExtractionList);
     })
     .catch(() => {
-      message.channel.send('Failed to fetch data :(');
+      message.channel.send(ERROR.UNABLE_FETCH_DATA);
     });
 }
 
@@ -65,8 +67,9 @@ function searchExtractionItem(message) {
   const searchMessage = message.content.split(BUFF_EXTRACTION.EXTRACT);
   const searchItemName = searchMessage[1].toLowerCase();
 
-  if (searchItemName.length > 0) {
-    axios.default.get('https://www.romcodex.com/api/extraction-buff')
+  if (!searchItemName) message.channel.send(ERROR.EMPTY_ITEM_NAME);
+  else {
+    axios.default.get(API.URL.EXTRACTION_BUFF)
       .then((response) => {
         let listItem = response.data || [];
 
@@ -98,7 +101,7 @@ function searchExtractionItem(message) {
               **Buff Extraction Effect :**
               ${itemDescription}
             `)
-            .setThumbnail(`https://www.romcodex.com/icons/item/item_${itemId}.png`)
+            .setThumbnail(API.URL.GET_ITEM_ICON_BY_ID(itemId))
             .setTimestamp();
 
           message.channel.send(buffExtraction);
@@ -107,10 +110,8 @@ function searchExtractionItem(message) {
       })
       .catch((err) => {
         console.log(err);
-        message.channel.send('Failed to fetch data :(');
+        message.channel.send(ERROR.UNABLE_FETCH_DATA);
       });
-  } else {
-    message.channel.send('Item message not inputed ! Yang betol lha!')
   }
 }
 

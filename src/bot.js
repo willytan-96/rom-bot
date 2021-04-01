@@ -5,10 +5,12 @@ require('dotenv').config();
 
 const GENERAL = require('./constants/general.js');
 
-const BUFF_EXTRACTION_FEATURES = require('./features/buff-extraction');
 const BUFF_EXTRACTION = require('./constants/buff-extraction.js');
+const EQUIPMENT_FILTERS = require('./constants/equipment-filters');
 const CARD_FILTERS = require('./features/card-filters');
-const FURNITURE_FILTERS = require('./features/furniture-filters');
+const BUFF_EXTRACTION_FEATURES = require('./features/buff-extraction');
+const FURNITURE_FILTERS_FEATURES = require('./features/furniture-filters');
+const EQUIPMENT_FILTERS_FEATURES = require('./features/equipment-filters');
 
 function sendHelp(message) {
   const helpMessage = new Discord.MessageEmbed()
@@ -44,11 +46,13 @@ client.on('message', (message) => {
   } else if (message.content.startsWith(GENERAL.DEPO_CARD_HELP)) {
     CARD_FILTERS.sendHelpAdvBookCard(message);
   } else if (message.content.startsWith(GENERAL.DEPO_FURNITURE_LIST)) {
-    FURNITURE_FILTERS.sendEffectList(message);
+    FURNITURE_FILTERS_FEATURES.sendEffectList(message);
   } else if (message.content.startsWith(GENERAL.DEPO_FURNITURE)) {
-    FURNITURE_FILTERS.getListDepoFurnitures(message);
+    FURNITURE_FILTERS_FEATURES.getListDepoFurnitures(message);
   } else if (message.content.startsWith(GENERAL.DEPO_FURNITURE_HELP)) {
-    FURNITURE_FILTERS.sendHelpAdvBookFurnitures(message);
+    FURNITURE_FILTERS_FEATURES.sendHelpAdvBookFurnitures(message);
+  } else if (message.content.startsWith(EQUIPMENT_FILTERS.SYNTHESIS)) {
+    EQUIPMENT_FILTERS_FEATURES.synthesisEquipment(message);
   }
 });
 

@@ -1,8 +1,9 @@
 const Discord = require('discord.js');
 const axios = require('axios');
-const general = require('../../constants/general');
 const effectTypes = require('../../constants/effect-types');
 const GENERAL = require('../../constants/general');
+const API = require('../../constants/api');
+const ERROR = require('../../constants/error-message');
 
 require('dotenv').config();
 
@@ -27,13 +28,13 @@ function sendEffectList(message) {
 }
 
 function getListDepoFurnitures(message) {
-  const searchEffect = message.content.split(general.DEPO_FURNITURE);
+  const searchEffect = message.content.split(GENERAL.DEPO_FURNITURE);
   const searchEffectValue = searchEffect[1].toLowerCase();
   const effect = effectTypes.furnitureEffectTypes.filter((eTypes) => eTypes.title.toLowerCase() === searchEffectValue);
 
   if (effect.length === 0) message.channel.send(`Effect doesn't exist. Please check list effect !`);
   else {
-    axios.get('https://www.romcodex.com/api/furniture')
+    axios.get(API.URL.FURNITURES)
       .then((response) => {
         const furnitures = response.data.filter(
           (e) => {
@@ -68,7 +69,7 @@ function getListDepoFurnitures(message) {
         listFurnitures.forEach((list) => message.channel.send('```' + list + '```'));
       }).catch((err) => {
         console.log(err);
-        message.channel.send('Failed to fetch data from server! Please try again ...')
+        message.channel.send(ERROR.UNABLE_FETCH_DATA)
       })
   }
 

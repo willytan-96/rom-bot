@@ -7,8 +7,12 @@ const DEPO_CARD_LIST = '!depo card list';
 const DEPO_FURNITURE_HELP = '!depo furniture';
 const DEPO_FURNITURE = '!depo furniture ';
 const DEPO_FURNITURE_LIST = '!depo furniture list';
+const SYNTH_HELP = '!synth **{item_name}**';
+
+const FIND_ITEM = '!find '
 
 module.exports = {
+  FIND_ITEM,
   HELP: '&help',
   HELP_MESSAGE: `- ${BUFF_EXTRACTION.EXTRACTION_LIST}
     - ${BUFF_EXTRACTION.EXTRACT} **{item_name}**
@@ -16,6 +20,7 @@ module.exports = {
     - ${DEPO_CARD_LIST}
     - ${DEPO_FURNITURE} **{effect_name}**
     - ${DEPO_FURNITURE_LIST}
+    - ${SYNTH_HELP}
   `,
   DEPO_CARD_HELP,
   DEPO_CARD,

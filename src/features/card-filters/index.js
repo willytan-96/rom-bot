@@ -3,6 +3,8 @@ const axios = require('axios');
 const general = require('../../constants/general');
 const effectTypes = require('../../constants/effect-types');
 const GENERAL = require('../../constants/general');
+const ERROR = require('../../constants/error-message');
+const API = require('../../constants/api');
 
 require('dotenv').config();
 
@@ -33,7 +35,7 @@ function getListDepoCard(message) {
 
   if (effect.length === 0) message.channel.send(`Effect doesn't exist. Please check list effect !`);
   else {
-    axios.get('https://www.romcodex.com/api/card')
+    axios.get(API.URL.CARDS)
       .then((response) => {
         const cards = response.data.filter(
           (e) => e[10].toLowerCase().includes(`"${effect[0].value.toLowerCase()}"`) ||
@@ -64,7 +66,7 @@ function getListDepoCard(message) {
         })
 
         listCard.forEach((list) => message.channel.send('```' + list + '```'));
-      }).catch(() => message.channel.send('Failed to fetch data from server! Please try again ...'))
+      }).catch(() => message.channel.send(ERROR.UNABLE_FETCH_DATA))
   }
 
 }
