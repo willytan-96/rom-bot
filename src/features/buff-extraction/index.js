@@ -35,8 +35,8 @@ function generateItemType(itemType) {
   }
 }
 
-function getExtractionList(message) {
-  axios.default.get(API.URL.EXTRACTION_BUFF)
+function getExtractionList() {
+  return axios.default.get(API.URL.EXTRACTION_BUFF)
     .then((response) => {
       const listItem = response.data || [];
       const sortedList = listItem.sort((itemA, itemB) => itemA[2].localeCompare(itemB[2]));
@@ -56,20 +56,23 @@ function getExtractionList(message) {
         .setDescription(messageList)
         .setTimestamp();
 
-      message.channel.send(buffExtractionList);
+      return {
+        embeds: [buffExtractionList]
+      };
     })
     .catch(() => {
-      message.channel.send(ERROR.UNABLE_FETCH_DATA);
+      return {
+        content: ERROR.UNABLE_FETCH_DATA,
+      };
     });
 }
 
-function searchExtractionItem(message) {
-  const searchMessage = message.content.split(BUFF_EXTRACTION.EXTRACT);
-  const searchItemName = searchMessage[1].toLowerCase();
+function searchExtractionItem(itemName) {
+  const searchItemName = itemName.toLowerCase();
 
-  if (!searchItemName) message.channel.send(ERROR.EMPTY_ITEM_NAME);
+  if (!searchItemName) return ERROR.EMPTY_ITEM_NAME;
   else {
-    axios.default.get(API.URL.EXTRACTION_BUFF)
+    return axios.default.get(API.URL.EXTRACTION_BUFF)
       .then((response) => {
         let listItem = response.data || [];
 
@@ -86,7 +89,7 @@ function searchExtractionItem(message) {
           }
         });
 
-        if (maxScore === 0) message.channel.send('List extraction item is not found, please check on `!list-extract`');
+        if (maxScore === 0) return { content: 'List extraction item is not found, please check on extraction list'};
         else {
           var itemId = result[0];
           var itemName = result[2];
@@ -104,13 +107,14 @@ function searchExtractionItem(message) {
             .setThumbnail(API.URL.GET_ITEM_ICON_BY_ID(itemId))
             .setTimestamp();
 
-          message.channel.send(buffExtraction);
+          return {
+            embeds: [buffExtraction]
+          };
         }
 
       })
-      .catch((err) => {
-        console.log(err);
-        message.channel.send(ERROR.UNABLE_FETCH_DATA);
+      .catch(() => {
+        return { content: ERROR.UNABLE_FETCH_DATA};
       });
   }
 }

@@ -11,7 +11,7 @@ function sendHelpAdvBookFurnitures(message) {
   message.channel.send('Please input the item name. *Format:* `' + GENERAL.DEPO_FURNITURE_HELP + ' {effect_name}`\nTo check other commands try using `&help`');
 }
 
-function sendEffectList(message) {
+function sendEffectList() {
   let effectList = '';
 
   effectTypes.furnitureEffectTypes.forEach((effect, index) => {
@@ -24,17 +24,16 @@ function sendEffectList(message) {
     .setDescription(effectList)
     .setTimestamp();
 
-  message.channel.send(effectListMessage);
+  return { embeds: [effectListMessage]};
 }
 
-function getListDepoFurnitures(message) {
-  const searchEffect = message.content.split(GENERAL.DEPO_FURNITURE);
-  const searchEffectValue = searchEffect[1].toLowerCase();
+function getListDepoFurnitures(effectName) {
+  const searchEffectValue = effectName.toLowerCase();
   const effect = effectTypes.furnitureEffectTypes.filter((eTypes) => eTypes.title.toLowerCase() === searchEffectValue);
 
-  if (effect.length === 0) message.channel.send(`Effect doesn't exist. Please check list effect !`);
+  if (effect.length === 0) return { content: `Effect doesn't exist. Please check list effect !` };
   else {
-    axios.get(API.URL.FURNITURES)
+    return axios.get(API.URL.FURNITURES)
       .then((response) => {
         const furnitures = response.data.filter(
           (e) => {
@@ -43,7 +42,7 @@ function getListDepoFurnitures(message) {
           }
         );
 
-        if (furnitures.length === 0) message.channel.send(`Furnitures with effect : *${searchEffect[1]}* is not found !`);
+        if (furnitures.length === 0) return { content: `Furnitures with effect : *${searchEffect[1]}* is not found !`};
 
         let listFurnitures = [];
         let textListFurnitures = '';
@@ -66,10 +65,22 @@ function getListDepoFurnitures(message) {
           }
         })
 
-        listFurnitures.forEach((list) => message.channel.send('```' + list + '```'));
+        let listEmbeeds = [];
+        listFurnitures.forEach((value, index) => {
+          const newEmbeeds = new Discord.MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle(`Search result page - ${index} ::`)
+            .setDescription(value)
+          listEmbeeds.push(newEmbeeds)
+        })
+
+        console.log(listEmbeeds)
+
+
+        return { embeds: listEmbeeds}
       }).catch((err) => {
-        console.log(err);
-        message.channel.send(ERROR.UNABLE_FETCH_DATA)
+        console.log("Failed ", err)
+        return { content: ERROR.UNABLE_FETCH_DATA }
       })
   }
 

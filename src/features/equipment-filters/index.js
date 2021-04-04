@@ -8,10 +8,12 @@ const EQUIPMENT_TIERS = require('../../constants/equipment-tiers');
 const API = require('../../constants/api');
 const ERROR = require('../../constants/error-message');
 
-async function synthesisEquipment(message) {
-  const searchItemName = COMMANDS.findMessage(EQUIPMENT_CONSTANT.SYNTHESIS, message);
+async function synthesisEquipment(itemName) {
+  const searchItemName = itemName.toLowerCase()
 
-  if (!searchItemName) message.channel.send(ERROR.EMPTY_ITEM_NAME);
+  if (!searchItemName) {
+    return { content: ERROR.EMPTY_ITEM_NAME }
+  }
   else {
     let equipmentList = [];
     await axios.get(API.URL.EQUIPMENTS)
@@ -22,12 +24,13 @@ async function synthesisEquipment(message) {
         }))
       })
       .catch(() => {
-        message.channel.send(ERROR.UNABLE_FETCH_DATA)
-        return;
+        return {content: ERROR.UNABLE_FETCH_DATA}
       })
 
     let maxScore = 0;
     let result = [];
+
+    console.log("Are you here ?")
 
     equipmentList.forEach((equipment) => {
       const currentItemName = equipment.itemName.toLowerCase();
@@ -39,10 +42,12 @@ async function synthesisEquipment(message) {
       }
     });
 
-    if (maxScore === 0) message.channel.send(ERROR.UNABLE_FIND_SIMILAR_ITEM);
+    if (maxScore === 0) return { content: ERROR.UNABLE_FIND_SIMILAR_ITEM }
     else {
-      await axios.get(API.URL.GET_ITEM_BY_ID(result.itemId))
-        .then(async ({ data: weaponDetails  }) => {
+      console.log(result.itemId)
+      return await axios.get(API.URL.GET_ITEM_BY_ID(result.itemId))
+        .then(async ({ data: weaponDetails }) => {
+          console.log("Success ??")
           if (weaponDetails.SynthesisRecipe.length > 0) {
             const synthesisRecipe = weaponDetails.SynthesisRecipe[0];
 
@@ -68,7 +73,7 @@ async function synthesisEquipment(message) {
                 .then(({ data }) => {
                   synthesisWeaponDetails = data;
                 }).catch(() => {
-                  message.channel.send(ERROR.FAILED_TO_RETRIEVE_SYNTHESIS_INFORMATION);
+                  return { content: ERROR.FAILED_TO_RETRIEVE_SYNTHESIS_INFORMATION };
                 })
             }
 
@@ -93,23 +98,24 @@ async function synthesisEquipment(message) {
             const synthesisWeaponItemType = synthesisWeaponDetails.TypeName;
             const synthesisWeaponPrice = `${synthesisRecipe.cost}z` || "Unknown Price";
 
-            const exampleEmbed = new Discord.RichEmbed()
+            const exampleEmbed = new Discord.MessageEmbed()
               .setColor('#0099ff')
               .setTitle(synthesisWeaponItemName)
               .setThumbnail(synthesisWeaponThumbnail)
-              .addField("Item Type", synthesisWeaponItemType)
-              .addField("Status", synthesisWeaponStatus)
-              .addField("Effects", synthesisWeaponExtraStatus)
-              .addBlankField()
-              .addField("Upgrade Materials", synthesisMaterials)
-              .addField("Weapon Materials", synthesisEquipments)
-              .addField('Cost Price', synthesisWeaponPrice)
 
-            message.channel.send(exampleEmbed);
+            exampleEmbed.fields = [
+              { name: "Item type", value: synthesisWeaponItemType},
+              { name: "Status", value: synthesisWeaponStatus},
+              { name: "Effects", value: synthesisWeaponExtraStatus},
+              { name: "Upgrade materials", value: synthesisMaterials},
+              { name: "Weapon materials", value: synthesisEquipments},
+              { name: "Cost Price", value: synthesisWeaponPrice}
+            ]
+            return { embeds: [exampleEmbed]}
           }
         })
         .catch(() => {
-          message.channel.send(ERROR.UNABLE_FETCH_DATA)
+          return { content: ERROR.UNABLE_FETCH_DATA}
         })
     }
   }

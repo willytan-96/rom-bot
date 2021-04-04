@@ -12,7 +12,7 @@ function sendHelpAdvBookCard(message) {
   message.channel.send('Please input the item name. *Format:* `' + GENERAL.DEPO_CARD_HELP + ' {effect_name}`\nTo check other commands try using `&help`');
 }
 
-function sendEffectList(message) {
+function sendEffectList() {
   let effectList = '';
 
   effectTypes.listTypes.forEach((effect, index) => {
@@ -25,24 +25,25 @@ function sendEffectList(message) {
     .setDescription(effectList)
     .setTimestamp();
 
-  message.channel.send(effectListMessage);
+  return {
+    embeds: [effectListMessage]
+  }
 }
 
-function getListDepoCard(message) {
-  const searchEffect = message.content.split(general.DEPO_CARD);
-  const searchEffectValue = searchEffect[1].toLowerCase();
+function getListDepoCard(cardEffect) {
+  const searchEffectValue = cardEffect.toLowerCase();
   const effect = effectTypes.listTypes.filter((eTypes) => eTypes.title.toLowerCase() === searchEffectValue);
 
-  if (effect.length === 0) message.channel.send(`Effect doesn't exist. Please check list effect !`);
+  if (effect.length === 0) return { content: `Effect doesn't exist. Please check list effect !`};
   else {
-    axios.get(API.URL.CARDS)
+    return axios.get(API.URL.CARDS)
       .then((response) => {
         const cards = response.data.filter(
           (e) => e[10].toLowerCase().includes(`"${effect[0].value.toLowerCase()}"`) ||
           e[11].toLowerCase().includes(`"${effect[0].value.toLowerCase()}"`)
         );
 
-        if (cards.length === 0) message.channel.send(`Card with effect : *${searchEffect[1]}* is not found !`);
+        if (cards.length === 0) return { content: `Card with effect : *${searchEffect[1]}* is not found !`};
 
         let listCard = [];
         let textListCard = '';
@@ -65,9 +66,19 @@ function getListDepoCard(message) {
           }
         })
 
-        listCard.forEach((list) => message.channel.send('```' + list + '```'));
-      }).catch(() => message.channel.send(ERROR.UNABLE_FETCH_DATA))
-  }
+        let listEmbeeds = [];
+        listFurnitures.forEach((value, index) => {
+          const newEmbeeds = new Discord.MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle(`Search result page - ${index} ::`)
+            .setDescription(value)
+          listEmbeeds.push(newEmbeeds)
+        })
+
+
+        return { embeds: listEmbeeds}
+      }).catch(() => ({ content: ERROR.UNABLE_FETCH_DATA })
+  )}
 
 }
 
