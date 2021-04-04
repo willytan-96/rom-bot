@@ -34,7 +34,13 @@ client.on('ready', () => {
   const whitelistGuilds = ["745106015724372048"]
 
   client.guilds.cache.map((_, key) => {
-    const isRegisteredInWhitelist = whitelistGuilds.filter((value) => value.toString() === key.toString()).length > 0;
+    const isRegisteredInWhitelist = false;
+    if (whitelistGuilds.length > 0) {
+      isRegisteredInWhitelist = whitelistGuilds.filter((value) => value.toString() === key.toString()).length > 0;
+    } else {
+      isRegisteredInWhitelist = true
+    }
+    
 
     if (isRegisteredInWhitelist) {
       client.api.applications(process.env.CLIENT_USER_ID).guilds(key).commands.post({
@@ -164,22 +170,8 @@ client.on('ready', () => {
       const value = args[0].value;
       console.log(args, value);
       const result = await CARD_FILTERS.getListDepoCard(value);
-      // if (Array.isArray(result)) {
-        
-      //   helpersInteractions.sendMessage(discordClients, {
-      //     embeds: {
-      //       fields: result.map((list, index) => {
-      //         return {
-      //           name: `Search result of page ${index}`,
-      //           description: list
-      //         }
-      //       })
-      //     }
-      //   })
-      // }
-      // else {
       helpersInteractions.sendMessage(discordClients, result);
-      // }
+
     } else if (command === 'synthesis-equipment') {
       const value = args[0].value;
       console.log("args", args)
@@ -191,21 +183,8 @@ client.on('ready', () => {
     } else if (command === 'search-furniture-effect-list') {
       const value = args[0].value;
       const result = await FURNITURE_FILTERS_FEATURES.getListDepoFurnitures(value);
-      // if (Array.isArray(result)) {
-      //   helpersInteractions.sendMessage(discordClients, {
-      //     embeds: {
-      //       fields: result.map((list, index) => {
-      //         return {
-      //           name: `Search result of page ${index}`,
-      //           description: list
-      //         }
-      //       })
-      //     }
-      //   })
-      // } else {
-        helpersInteractions.sendMessage(discordClients, result);
-      }
-    // }
+      helpersInteractions.sendMessage(discordClients, result);
+    }
   });
 
   console.log("Bot is ready !!")
