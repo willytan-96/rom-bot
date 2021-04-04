@@ -67,7 +67,7 @@ function getListDepoCard(cardEffect) {
         })
 
         let listEmbeeds = [];
-        listFurnitures.forEach((value, index) => {
+        listCard.forEach((value, index) => {
           const newEmbeeds = new Discord.MessageEmbed()
             .setColor('#0099ff')
             .setTitle(`Search result page - ${index} ::`)
