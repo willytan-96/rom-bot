@@ -34,7 +34,7 @@ client.on('ready', () => {
   const whitelistGuilds = ["745106015724372048"]
 
   client.guilds.cache.map((_, key) => {
-    const isRegisteredInWhitelist = false;
+    let isRegisteredInWhitelist = false;
     if (whitelistGuilds.length > 0) {
       isRegisteredInWhitelist = whitelistGuilds.filter((value) => value.toString() === key.toString()).length > 0;
     } else {
