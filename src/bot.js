@@ -31,7 +31,7 @@ client.on('ready', () => {
   client.user.setActivity('h: &help');
 
 
-  const whitelistGuilds = ["745106015724372048"]
+  const whitelistGuilds = []
 
   client.guilds.cache.map((_, key) => {
     let isRegisteredInWhitelist = false;

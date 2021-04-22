@@ -11,26 +11,10 @@ module.exports = {
     })
   },
   sendHelpMessage: (DiscordClient) => {
-    const commands = [
-      "list extract",
-      "depo card ***{effect}***",
-      "depo card  ***{effect_name}***",
-      "depo card list",
-      "depo furniture  ***{effect_name}***",
-      "depo furniture list",
-      "synth ***{item_name}***"
-    ]
-
-    let message = "";
-    message += "Here list of the commands :\n"
-    commands.forEach((value) => {
-      message += `\t- ${value}\n`
-    })
-
     const embeedMessage = new Discord.MessageEmbed()
       .setColor('#0099ff')
-      .setTitle('List commands :')
-      .setDescription(message)
+      .setTitle('Help')
+      .setDescription('All commands is already registered in `/` slash commands of discord. try to type `/` and you`re able to see it on there.')
       .setTimestamp();
 
 
