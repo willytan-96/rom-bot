@@ -40,7 +40,7 @@ client.on('ready', () => {
     } else {
       isRegisteredInWhitelist = true
     }
-    
+
 
     if (isRegisteredInWhitelist) {
       client.api.applications(process.env.CLIENT_USER_ID).guilds(key).commands.post({
@@ -88,14 +88,12 @@ client.on('ready', () => {
         data: {
           name: "extract",
           description: "Find extraction buff of an item",
-          options: [
-            {
-              name: "item_name",
-              description: "Name of the extraction buff item",
-              type: 3,
-              required: true,
-            }
-          ]
+          options: [{
+            name: "item_name",
+            description: "Name of the extraction buff item",
+            type: 3,
+            required: true,
+          }]
         },
       });
 
@@ -103,27 +101,31 @@ client.on('ready', () => {
         data: {
           name: "search-depo-card-effect-list",
           description: "Find deposit card effect list",
-          options: [
-            {
-              name: "effect_status",
-              description: "Effect of card (Will always priority checking this first and ignore the second one if exist)",
-              type: 3,
-              required: false,
-              choices: effectTypes.listStatus.map(({ title, value }) => ({
-                name: title,
-                value
-              }))
-            }, {
-              name: "effect_percentage",
-              description: "Effect % of card",
-              type: 3,
-              required: false,
-              choices: effectTypes.listPercentageStatus.map(({ title, value }) => ({
-                name: title,
-                value
-              }))
-            },
-          ]
+          options: [{
+            name: "effect_status",
+            description: "Effect of card (Will always priority checking this first and ignore the second one if exist)",
+            type: 3,
+            required: false,
+            choices: effectTypes.listStatus.map(({
+              title,
+              value
+            }) => ({
+              name: title,
+              value
+            }))
+          }, {
+            name: "effect_percentage",
+            description: "Effect % of card",
+            type: 3,
+            required: false,
+            choices: effectTypes.listPercentageStatus.map(({
+              title,
+              value
+            }) => ({
+              name: title,
+              value
+            }))
+          }, ]
         },
       });
 
@@ -131,18 +133,19 @@ client.on('ready', () => {
         data: {
           name: "search-furniture-effect-list",
           description: "Find deposit furniture effect list",
-          options: [
-            {
-              name: "effect_status",
-              description: "Effect deposit furniture",
-              type: 3,
-              required: true,
-              choices: effectTypes.furnitureEffectTypes.map(({ title, value }) => ({
-                name: title,
-                value
-              }))
-            },
-          ]
+          options: [{
+            name: "effect_status",
+            description: "Effect deposit furniture",
+            type: 3,
+            required: true,
+            choices: effectTypes.furnitureEffectTypes.map(({
+              title,
+              value
+            }) => ({
+              name: title,
+              value
+            }))
+          }, ]
         },
       });
     }

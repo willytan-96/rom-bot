@@ -34,7 +34,9 @@ function getListDepoCard(cardEffect) {
   const searchEffectValue = cardEffect.toLowerCase();
   const effect = effectTypes.listTypes.filter((eTypes) => eTypes.title.toLowerCase() === searchEffectValue);
 
-  if (effect.length === 0) return { content: `Effect doesn't exist. Please check list effect !`};
+  if (effect.length === 0) return {
+    content: `Effect doesn't exist. Please check list effect !`
+  };
   else {
     return axios.get(API.URL.CARDS)
       .then((response) => {
@@ -43,7 +45,9 @@ function getListDepoCard(cardEffect) {
           e[11].toLowerCase().includes(`"${effect[0].value.toLowerCase()}"`)
         );
 
-        if (cards.length === 0) return { content: `Card with effect : *${searchEffect[1]}* is not found !`};
+        if (cards.length === 0) return {
+          content: `Card with effect : *${searchEffect[1]}* is not found !`
+        };
 
         let listCard = [];
         let textListCard = '';
@@ -76,9 +80,13 @@ function getListDepoCard(cardEffect) {
         })
 
 
-        return { embeds: listEmbeeds}
-      }).catch(() => ({ content: ERROR.UNABLE_FETCH_DATA })
-  )}
+        return {
+          embeds: listEmbeeds
+        }
+      }).catch(() => ({
+        content: ERROR.UNABLE_FETCH_DATA
+      }))
+  }
 
 }
 

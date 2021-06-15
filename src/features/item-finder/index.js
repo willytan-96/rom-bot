@@ -6,7 +6,7 @@ function findItemFeature(message) {
   const searchMessages = message.content.split(GENERAL.FIND_ITEM);
   const searchItemMessage = searchMessages[1].toLowerCase();
 
-  message.channel.send("Item name : "+ searchItemMessage)
+  message.channel.send("Item name : " + searchItemMessage)
 }
 
 module.exports = {

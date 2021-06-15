@@ -12,9 +12,10 @@ async function synthesisEquipment(itemName) {
   const searchItemName = itemName.toLowerCase()
 
   if (!searchItemName) {
-    return { content: ERROR.EMPTY_ITEM_NAME }
-  }
-  else {
+    return {
+      content: ERROR.EMPTY_ITEM_NAME
+    }
+  } else {
     let equipmentList = [];
     await axios.get(API.URL.EQUIPMENTS)
       .then((response) => {
@@ -24,7 +25,9 @@ async function synthesisEquipment(itemName) {
         }))
       })
       .catch(() => {
-        return {content: ERROR.UNABLE_FETCH_DATA}
+        return {
+          content: ERROR.UNABLE_FETCH_DATA
+        }
       })
 
     let maxScore = 0;
@@ -42,11 +45,15 @@ async function synthesisEquipment(itemName) {
       }
     });
 
-    if (maxScore === 0) return { content: ERROR.UNABLE_FIND_SIMILAR_ITEM }
+    if (maxScore === 0) return {
+      content: ERROR.UNABLE_FIND_SIMILAR_ITEM
+    }
     else {
       console.log(result.itemId)
       return await axios.get(API.URL.GET_ITEM_BY_ID(result.itemId))
-        .then(async ({ data: weaponDetails }) => {
+        .then(async ({
+          data: weaponDetails
+        }) => {
           console.log("Success ??")
           if (weaponDetails.SynthesisRecipe.length > 0) {
             const synthesisRecipe = weaponDetails.SynthesisRecipe[0];
@@ -65,15 +72,21 @@ async function synthesisEquipment(itemName) {
               synthesisEquipments += "1x **" + weapon.item.NameZh__EN + ` ${filteredTier.tier}**\n`
             })
 
-            const { id: syntesisItemId } = synthesisRecipe.output;
+            const {
+              id: syntesisItemId
+            } = synthesisRecipe.output;
 
             var synthesisWeaponDetails = weaponDetails;
             if (synthesisWeaponDetails.id !== syntesisItemId) {
               await axios.get(API.URL.GET_ITEM_BY_ID(syntesisItemId))
-                .then(({ data }) => {
+                .then(({
+                  data
+                }) => {
                   synthesisWeaponDetails = data;
                 }).catch(() => {
-                  return { content: ERROR.FAILED_TO_RETRIEVE_SYNTHESIS_INFORMATION };
+                  return {
+                    content: ERROR.FAILED_TO_RETRIEVE_SYNTHESIS_INFORMATION
+                  };
                 })
             }
 
@@ -103,19 +116,40 @@ async function synthesisEquipment(itemName) {
               .setTitle(synthesisWeaponItemName)
               .setThumbnail(synthesisWeaponThumbnail)
 
-            exampleEmbed.fields = [
-              { name: "Item type", value: synthesisWeaponItemType},
-              { name: "Status", value: synthesisWeaponStatus},
-              { name: "Effects", value: synthesisWeaponExtraStatus},
-              { name: "Upgrade materials", value: synthesisMaterials},
-              { name: "Weapon materials", value: synthesisEquipments},
-              { name: "Cost Price", value: synthesisWeaponPrice}
+            exampleEmbed.fields = [{
+                name: "Item type",
+                value: synthesisWeaponItemType
+              },
+              {
+                name: "Status",
+                value: synthesisWeaponStatus
+              },
+              {
+                name: "Effects",
+                value: synthesisWeaponExtraStatus
+              },
+              {
+                name: "Upgrade materials",
+                value: synthesisMaterials
+              },
+              {
+                name: "Weapon materials",
+                value: synthesisEquipments
+              },
+              {
+                name: "Cost Price",
+                value: synthesisWeaponPrice
+              }
             ]
-            return { embeds: [exampleEmbed]}
+            return {
+              embeds: [exampleEmbed]
+            }
           }
         })
         .catch(() => {
-          return { content: ERROR.UNABLE_FETCH_DATA}
+          return {
+            content: ERROR.UNABLE_FETCH_DATA
+          }
         })
     }
   }

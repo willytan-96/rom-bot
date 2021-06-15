@@ -89,7 +89,9 @@ function searchExtractionItem(itemName) {
           }
         });
 
-        if (maxScore === 0) return { content: 'List extraction item is not found, please check on extraction list'};
+        if (maxScore === 0) return {
+          content: 'List extraction item is not found, please check on extraction list'
+        };
         else {
           var itemId = result[0];
           var itemName = result[2];
@@ -114,7 +116,9 @@ function searchExtractionItem(itemName) {
 
       })
       .catch(() => {
-        return { content: ERROR.UNABLE_FETCH_DATA};
+        return {
+          content: ERROR.UNABLE_FETCH_DATA
+        };
       });
   }
 }

@@ -24,14 +24,18 @@ function sendEffectList() {
     .setDescription(effectList)
     .setTimestamp();
 
-  return { embeds: [effectListMessage]};
+  return {
+    embeds: [effectListMessage]
+  };
 }
 
 function getListDepoFurnitures(effectName) {
   const searchEffectValue = effectName.toLowerCase();
   const effect = effectTypes.furnitureEffectTypes.filter((eTypes) => eTypes.title.toLowerCase() === searchEffectValue);
 
-  if (effect.length === 0) return { content: `Effect doesn't exist. Please check list effect !` };
+  if (effect.length === 0) return {
+    content: `Effect doesn't exist. Please check list effect !`
+  };
   else {
     return axios.get(API.URL.FURNITURES)
       .then((response) => {
@@ -42,7 +46,9 @@ function getListDepoFurnitures(effectName) {
           }
         );
 
-        if (furnitures.length === 0) return { content: `Furnitures with effect : *${searchEffect[1]}* is not found !`};
+        if (furnitures.length === 0) return {
+          content: `Furnitures with effect : *${searchEffect[1]}* is not found !`
+        };
 
         let listFurnitures = [];
         let textListFurnitures = '';
@@ -77,10 +83,14 @@ function getListDepoFurnitures(effectName) {
         console.log(listEmbeeds)
 
 
-        return { embeds: listEmbeeds}
+        return {
+          embeds: listEmbeeds
+        }
       }).catch((err) => {
         console.log("Failed ", err)
-        return { content: ERROR.UNABLE_FETCH_DATA }
+        return {
+          content: ERROR.UNABLE_FETCH_DATA
+        }
       })
   }
 
